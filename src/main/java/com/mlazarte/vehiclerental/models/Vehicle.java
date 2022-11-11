@@ -31,7 +31,7 @@ public abstract class Vehicle {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rental_id")
-    public Rental rental;
+    private Rental rental;
 
     public Rental getRental() {
         return rental;
