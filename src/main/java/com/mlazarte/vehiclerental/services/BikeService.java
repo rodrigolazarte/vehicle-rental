@@ -50,14 +50,20 @@ public class BikeService {
     }
 
 
-    public Bike updateBike(BikeDto bikeDto) {
-        var oldBike = bikeRepository.findById(bikeDto.getVehicleId()).get();
-        var bike = modelMapper.map(bikeDto, Bike.class);
+    public Bike updateBike(Integer id, BikeDto bikeDto) {
+        var oldBike = bikeRepository.findById(id);
 
-        bike.setRental(oldBike.getRental());
-        bikeRepository.save(bike);
+        if (oldBike.isPresent()){
+            var bike = modelMapper.map(bikeDto, Bike.class);
 
-        return bike;
+            bike.setVehicleId(oldBike.get().getVehicleId());
+            bike.setAvailable(oldBike.get().isAvailable());
+            bike.setRental(oldBike.get().getRental());
+            bikeRepository.save(bike);
+
+            return bike;
+        } else
+            return null;
     }
 
 

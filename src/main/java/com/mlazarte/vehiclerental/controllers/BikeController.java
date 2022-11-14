@@ -35,8 +35,10 @@ public class BikeController {
     )
     public ResponseEntity<Bike> getBikeById(@PathVariable Integer id) {
         Bike bike = bikeService.getBikeById(id);
-        if (bike != null) return ResponseEntity.ok().body(bike);
-        else return ResponseEntity.notFound().build();
+        if (bike != null)
+            return ResponseEntity.ok().body(bike);
+        else
+            return ResponseEntity.notFound().build();
     }
 
     @PostMapping(
@@ -60,15 +62,19 @@ public class BikeController {
             @RequestParam(required = false, name = "brand", defaultValue = "") String brand
     ) {
         List<Bike> bikes = bikeService.getBikesByFilter(brand, bikeType, tireSize);
+
         return ResponseEntity.ok().body(bikes);
     }
 
     @PutMapping(
-            value = "/bikes",
+            value = "/bikes/{id}",
             produces = "application/json"
     )
-    public ResponseEntity<Bike> updateBike(@RequestBody BikeDto bikeDto) {
-        Bike updatedBike = bikeService.updateBike(bikeDto);
+    public ResponseEntity<Bike> updateBike(
+            @PathVariable Integer id,
+            @RequestBody BikeDto bikeDto
+    ) {
+        Bike updatedBike = bikeService.updateBike(id, bikeDto);
         if (updatedBike != null)
             return ResponseEntity.ok().body(updatedBike);
         else
